@@ -12,7 +12,9 @@ We will use tools including TorchServe, TorchDrift, and mlflow to manage model v
 
 [Model Training/Serving with BERT](notebooks/model_training.ipynb)
 
-[Deteching Model Drift with TorchServe and Online Learning](notebooks/detecting_model_drift.ipynb)
+[Detecting Model Drift with TorchServe](notebooks/detecting_model_drift.ipynb)
+
+[Online Learning](notebooks/online_learning.ipynb)
 
 [Deploying models with FastAPI](fastapi/)
 

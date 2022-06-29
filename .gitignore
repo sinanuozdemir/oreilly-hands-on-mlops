@@ -1,6 +1,6 @@
+notebooks/.ipynb_checkpoints/*
 fastapi/__pycache__/
 fastapi/clf/
-notebooks/.ipynb_checkpoints
 torchserve/clf.pt
 .DS_Store
 torchserve/logs/
