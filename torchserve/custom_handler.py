@@ -10,7 +10,7 @@ class TextHandler(BaseHandler):
         self.tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
 
     def preprocess(self, requests):
-        print(requests)
+        print(f"preprocess for requests={requests}")
         texts = [r['body'] for r in requests]
         return self.tokenizer.batch_encode_plus(texts, return_tensors='pt')
 
@@ -18,13 +18,14 @@ class TextHandler(BaseHandler):
         '''
         Perform the model inference
         '''
-        print(x)
-        return self.model(x['input_ids'])
+        print(f"inference for x={x}")
+        return self.model(**x)
 
     def postprocess(self, preds):
         '''
         Torchserve always expects an array to be returned.
         '''
+        print(f"postprocess for preds={preds}")
         post = torch.nn.Softmax(dim=1)(preds['logits']).max(1)
         return [
         {'probability': c, 'label': self.mapping[str(label)]} \

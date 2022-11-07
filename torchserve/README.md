@@ -1,8 +1,3 @@
-## To build the torch serve archive
-```
-torch-model-archiver 
-
-
 
 ## To build the torch serve archive
 ```

@@ -11,7 +11,6 @@ import re
 URL_REGEX = re.compile('http(s)?:\/\/t.co\/\w+')
 MENTION_REGEX = re.compile('@\w+')
 
-
 def clean_tweet(tweet):
     # remove mentions, the pound sign, and replace urls with URL token
     tweet = re.sub(URL_REGEX, 'url', tweet)  # replace urls with url. Assumes that the mention of a url is significant
@@ -19,7 +18,6 @@ def clean_tweet(tweet):
     tweet = tweet.replace('#', '')  # remove pound signs
 
     return tweet.strip()
-
 
 LABELS = {
     0: 'Negative',
@@ -31,19 +29,17 @@ app = FastAPI()
 
 print("loading tokenizer + model")
 tokenizer = DistilBertTokenizerFast.from_pretrained('distilbert-base-uncased')
-sequence_classification_model = DistilBertForSequenceClassification.from_pretrained('./clf/results')
+sequence_classification_model = DistilBertForSequenceClassification.from_pretrained('../notebooks/clf/results')
 
 sequence_classification_model.eval()
 
 print("loaded tokenizer + model")
-
 
 def predict_label(text):
     logits = sequence_classification_model(input_ids=tokenizer.encode(text, return_tensors='pt')).logits
     predicted_label = int(logits.argmax(1).detach())
     label = LABELS[predicted_label]
     return {LABELS[int(i)]: p for i, p in enumerate(Softmax(1)(logits).detach()[0])}, label
-
 
 class SentimentRequest(BaseModel):
     text: str
@@ -53,7 +49,6 @@ class SentimentResponse(BaseModel):
     probabilities: Dict[str, float]
     label: str
     confidence: float
-
 
 @app.post("/predict", response_model=SentimentResponse)
 def predict(request: SentimentRequest):
